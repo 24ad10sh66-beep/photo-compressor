@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SnapShrink - Free Online Photo Compressor</title>
+  <meta name="description" content="Compress your photos online instantly with SnapShrink. Fast, free, mobile-friendly photo compressor tool. No signup needed!">
+  <meta name="keywords" content="photo compressor, image compressor, reduce image size, online photo shrink, SnapShrink">
+  <meta name="author" content="SnapShrink Team">
+
+  <!-- Open Graph for Social Media -->
+  <meta property="og:title" content="SnapShrink - Free Photo Compressor">
+  <meta property="og:description" content="Easily compress your JPG/PNG photos online. Save space and share faster.">
+  <meta property="og:image" content="https://24ad10sh66-beep.github.io/photo-compressor/assets/preview.png">
+  <meta property="og:url" content="https://24ad10sh66-beep.github.io/photo-compressor/">
+  <meta property="og:type" content="website">
+
+  <!-- Canonical (original URL) -->
+  <link rel="canonical" href="https://24ad10sh66-beep.github.io/photo-compressor/">
+
+  <!-- Favicon -->
+  <link rel="icon" href="assets/favicon.png" type="image/png">
+
+  <!-- CSS for Dark Attractive Theme -->
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      min-height: 100vh;
+      text-align: center;
+      padding: 30px;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    h1 {
+      color: #f9f9f9;
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      text-shadow: 0px 2px 6px rgba(0,0,0,0.8);
+    }
+    p {
+      color: #ddd;
+      margin-bottom: 20px;
+      font-size: 1.1rem;
+    }
+    .container {
+      margin: auto;
+      max-width: 500px;
+      background: rgba(30, 30, 30, 0.7);
+      padding: 25px;
+      border-radius: 20px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+      animation: fadeIn 1s ease;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    label {
+      color: #f1f1f1;
+      font-weight: bold;
+    }
+    input[type="file"],
+    input[type="range"] {
+      margin: 15px 0;
+    }
+    #qualityValue, #sizeValue {
+      font-weight: bold;
+    }
+    .preview img {
+      max-width: 100%;
+      margin: 10px 0;
+      border: 2px solid #444;
+      border-radius: 10px;
+    }
+    .download-btn {
+      display: inline-block;
+      padding: 12px 25px;
+      background: linear-gradient(135deg, #ff416c, #ff4b2b);
+      color: white;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: bold;
+      margin-top: 15px;
+      transition: 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    }
+    .download-btn:hover {
+      background: linear-gradient(135deg, #ff5e62, #ff9966);
+      transform: scale(1.05);
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ========================= */
+    /* 👇 Soft & Eye-Friendly Overrides */
+    /* ========================= */
+    body {
+      background: linear-gradient(135deg, #1e3c72, #2a5298, #1b2735);
+    }
+    h1 {
+      color: #e6f1ff;
+      text-shadow: 0px 2px 6px rgba(0,0,0,0.7);
+    }
+    p {
+      color: #cfd8e3;
+    }
+    .container {
+      background: rgba(25, 25, 35, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    label {
+      color: #dfe6f0;
+    }
+    #qualityValue {
+      color: #66ffcc;
+    }
+    #sizeValue {
+      color: #ffcc66;
+    }
+    .preview img {
+      border: 2px solid #3a4b61;
+    }
+    .download-btn {
+      background: linear-gradient(135deg, #43cea2, #185a9d);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+    .download-btn:hover {
+      background: linear-gradient(135deg, #5ee7df, #b490ca);
+      transform: scale(1.05);
+    }
+    .preview h3:nth-of-type(1) {
+      color: #ffd166;
+    }
+    .preview h3:nth-of-type(2) {
+      color: #06d6a0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>📸 SnapShrink</h1>
+    <p>Compress your JPG/PNG photos online. Free, Fast & Mobile Friendly.</p>
+
+    <label for="upload">Upload your photo:</label><br>
+    <input type="file" id="upload" accept="image/*"><br><br>
+
+    <label for="quality">Select Quality: <span id="qualityValue">80%</span></label><br>
+    <input type="range" id="quality" min="10" max="100" value="80"><br><br>
+
+    <label for="maxSize">Max File Size: <span id="sizeValue">500 KB</span></label><br>
+    <input type="range" id="maxSize" min="50" max="5000" step="50" value="500"><br><br>
+
+    <div class="preview">
+      <h3>Before:</h3>
+      <img id="beforeImg" src="" alt="">
+      <h3>After:</h3>
+      <img id="afterImg" src="" alt="">
+    </div>
+
+    <a id="downloadBtn" class="download-btn" style="display:none;">Download Compressed Image</a>
+  </div>
+
+  <script>
+    const upload = document.getElementById('upload');
+    const quality = document.getElementById('quality');
+    const qualityValue = document.getElementById('qualityValue');
+    const maxSize = document.getElementById('maxSize');
+    const sizeValue = document.getElementById('sizeValue');
+    const beforeImg = document.getElementById('beforeImg');
+    const afterImg = document.getElementById('afterImg');
+    const downloadBtn = document.getElementById('downloadBtn');
+
+    quality.addEventListener('input', () => {
+      qualityValue.textContent = quality.value + '%';
+    });
+
+    maxSize.addEventListener('input', () => {
+      sizeValue.textContent = maxSize.value + ' KB';
+    });
+
+    upload.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      beforeImg.src = URL.createObjectURL(file);
+
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = (event) => {
+        const img = new Image();
+        img.src = event.target.result;
+
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          const ctx = canvas.getContext('2d');
+
+          const MAX_WIDTH = 800;
+          const scaleSize = MAX_WIDTH / img.width;
+          canvas.width = MAX_WIDTH;
+          canvas.height = img.height * scaleSize;
+
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+          let q = quality.value / 100;
+          let compressedDataUrl = canvas.toDataURL('image/jpeg', q);
+
+          // check max size condition
+          function compressUntilLimit(dataUrl) {
+            let byteString = atob(dataUrl.split(',')[1]);
+            let sizeInKB = byteString.length / 1024;
+            if (sizeInKB > maxSize.value && q > 0.1) {
+              q -= 0.05;
+              compressedDataUrl = canvas.toDataURL('image/jpeg', q);
+              return compressUntilLimit(compressedDataUrl);
+            }
+            return dataUrl;
+          }
+
+          compressedDataUrl = compressUntilLimit(compressedDataUrl);
+
+          afterImg.src = compressedDataUrl;
+          downloadBtn.href = compressedDataUrl;
+          downloadBtn.download = "compressed.jpg";
+          downloadBtn.style.display = "inline-block";
+        };
+      };
+    });
+  </script>
+</body>
+</html>
